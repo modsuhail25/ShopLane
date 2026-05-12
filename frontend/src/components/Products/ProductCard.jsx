@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { ShoppingCart, Package } from "lucide-react";
+import { Link } from "react-router";
 
 // Intl.NumberFormat formats a number as Indian Rupees, e.g. 24999 → "₹24,999.00"
 const formatPrice = (amount) =>
@@ -17,7 +18,7 @@ export default function ProductCard({ product }) {
   return (
     <div className="bg-white rounded-2xl shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden group">
       {/* Image */}
-      <div className="block">
+      <Link to={`/product/${product._id}`} className="block">
         <div className="relative w-full h-48 sm:h-52 overflow-hidden bg-gray-50">
           {imageUrl && !imgError ? (
             <img
@@ -39,7 +40,7 @@ export default function ProductCard({ product }) {
             </div>
           )}
         </div>
-      </div>
+      </Link>
 
       {/* Body */}
       <div className="p-4">
@@ -48,11 +49,11 @@ export default function ProductCard({ product }) {
             {product.category.name}
           </span>
         )}
-        <div>
+        <Link to={`/product/${product._id}`}>
           <h3 className="font-display font-semibold text-gray-900 text-sm mt-2 line-clamp-2 h-10 hover:text-primary-600 transition-colors">
             {product.name}
           </h3>
-        </div>
+        </Link>
         <p className="font-display font-bold text-lg text-accent-500 mt-2">
           {formatPrice(product.price)}
         </p>
