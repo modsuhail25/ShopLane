@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router";
 import { ShoppingCart, ArrowLeft, Star, Package } from "lucide-react";
-import { PRODUCTS } from "../data/product";
+import axios from "axios";
 
 // Formats a number as Indian Rupees, e.g. 24999 → "₹24,999.00"
 const formatPrice = (amount) =>
@@ -10,11 +10,20 @@ const formatPrice = (amount) =>
   );
 
 export default function ProductDetailPage() {
+  const [product, setProduct] = useState({});
+
   // useParams reads the :id segment from the URL, e.g. /products/p1 → { id: "p1" }
+  const { id } = useParams();
 
-  const params = useParams();
+  // const product = PRODUCTS.find((p) => p._id === params.id);
 
-  const product = PRODUCTS.find((p) => p._id === params.id);
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const { data } = await axios.get(`/api/products/${id}`);
+      setProduct(data);
+    };
+    fetchProducts();
+  }, []);
 
   // Track whether the product image failed to load
   const [imgError, setImgError] = useState(false);

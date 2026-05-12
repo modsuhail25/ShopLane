@@ -8,7 +8,9 @@ import {
   Star,
 } from "lucide-react";
 import ProductCard from "../components/Products/ProductCard";
-import { CATEGORIES, PRODUCTS } from "../data/product";
+import { CATEGORIES } from "../data/product";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 /* ─── Section: Hero ──────────────────────────────────────── */
 
@@ -105,6 +107,15 @@ function CategoryRow() {
 /* ─── Section: Featured products ─────────────────────────── */
 
 function FeaturedProducts() {
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const { data } = await axios.get("/api/products");
+      setProducts(data);
+    };
+    fetchProducts();
+  }, []);
   return (
     <section className="py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -117,7 +128,7 @@ function FeaturedProducts() {
           </div>
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-          {PRODUCTS.map((product) => (
+          {products.map((product) => (
             <ProductCard key={product._id} product={product} />
           ))}
         </div>
